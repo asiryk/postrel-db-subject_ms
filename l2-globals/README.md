@@ -1,0 +1,83 @@
+1. run `boot.sh`
+2. exec `zn "OSCRIPT"`
+
+Password for _SYSTEM is SYS
+
+Execute Routine
+
+docker-compose exec iris iris session iris
+do ^cls.ObjectScript.Routine
+    
+
+$DATA(variable,target) – перевіряє, чи містить змінна данні, де variable – локальна чи глобальна, скалярна
+або індексована змінна, target – змінна, в яку буде повернуто значення даного вузла
+
+
+ROUTINE cls.ObjectScript.Routine
+
+ // тип пального, збагачений, підвид, кількість літрів
+
+ Set ^GasStation("Бензин") = 2
+ Set ^GasStation("Дизель") = 2
+ 
+ Set ^GasStation("Бензин", 0) = $LISTBUILD(90, 35)
+ Set ^GasStation("Бензин", 1) = $LISTBUILD(180, 45)
+ Set ^GasStation("Дизель", 0) = $LISTBUILD(90, 38)
+ Set ^GasStation("Дизель", 1) = $LISTBUILD(180, 50)
+ 
+ Set ^GasStation("Бензин", 0, "А-95") = 29
+ Set ^GasStation("Бензин", 0, "Energy") = 32
+ Set ^GasStation("Дизель", 0, "А-95") = 30
+ Set ^GasStation("Дизель", 0, "Energy") = 34
+ 
+ Set ^GasStation("Бензин", 1, "A-95") = 34
+ Set ^GasStation("Бензин", 1, "Energy") = 39
+ Set ^GasStation("Дизель", 1, "A-95") = 34
+ Set ^GasStation("Дизель", 1, "Energy") = 39
+ 
+ Set ^GasStation("Бензин", 0, "А-95", 1) = 29
+ Set ^GasStation("Бензин", 0, "Energy", 1) = 32
+ Set ^GasStation("Дизель", 0, "А-95", 1) = 30
+ Set ^GasStation("Дизель", 0, "Energy", 1) = 34
+ Set ^GasStation("Бензин", 1, "A-95", 1) = 34
+ Set ^GasStation("Бензин", 1, "Energy", 1) = 39
+ Set ^GasStation("Дизель", 1, "A-95", 1) = 34
+ Set ^GasStation("Дизель", 1, "Energy", 1) = 39
+ 
+ Set ^GasStation("Бензин", 0, "А-95", 2) = 50
+ Set ^GasStation("Бензин", 0, "Energy", 2) = 55
+ Set ^GasStation("Дизель", 0, "А-95", 2) = 50
+ Set ^GasStation("Дизель", 0, "Energy", 2) = 54
+ Set ^GasStation("Бензин", 1, "A-95", 2) = 50
+ Set ^GasStation("Бензин", 1, "Energy", 2) = 54
+ Set ^GasStation("Дизель", 1, "A-95", 2) = 53
+ Set ^GasStation("Дизель", 1, "Energy", 2) = 59
+
+ Read "Введіть тип пального: ", type, !
+ 
+ // Перевіряє чи змінна заповненна 0 якщо незап, 1 якщо зап
+ If ($DATA(^GasStation(type)) '= 0){
+    // повертає масив об єктів
+  Set x=$NAME(^GasStation(type))
+   For{
+    // переходить до наступного елемента
+    Set x=$QUERY(@x)
+    
+    // якщо пустий - дійшли до кінця, ретурн, або якщо перший не правильний
+    // qsubscript -  pyfx
+    If ((x="")||($QSUBSCRIPT(x,1)'=type)) {
+      Quit
+    }
+    
+    // якщо є 3 індекса
+    If (($QLENGTH(x) = 3) && ($QSUBSCRIPT(x,2)=0)) {
+      Write "Не збагаченe ", $QSUBSCRIPT(x,3), !
+    }
+    ElseIf (($QLENGTH(x) = 3) && ($QSUBSCRIPT(x,2)=1))  {
+      Write "Збагаченe ", $QSUBSCRIPT(x,3), !
+    }
+  }
+}
+ Else{
+    Write "Обраний тип пального недоступний", ! 
+ }

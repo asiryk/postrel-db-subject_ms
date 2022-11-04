@@ -6,5 +6,5 @@ docker-compose up -d
 
 # open iris terminal in docker
 # zn "OSCRIPT"
-# d ##class(cls.ObjectScript.Example).HelloWorld(
+# d ##class(cls.ObjectScript.Example).HelloWorld()
 docker-compose exec iris iris session iris
