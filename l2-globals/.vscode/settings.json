@@ -1,5 +1,5 @@
 {
-    "workbench.colorTheme": "Default Dark+",
+    "intersystems.language-server.suggestTheme": false,
     "objectscript.compileOnSave": true,
     "objectscript.conn": {
         "active": true,

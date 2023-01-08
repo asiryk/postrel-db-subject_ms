@@ -1,5 +1,4 @@
-ARG IMAGE=intersystems/iris-community:2021.2.0.651.0
-FROM $IMAGE
+FROM intersystems/iris-community:2022.1.0.209.0
 
 # docker run intersystems/iris-community:2021.2.0.651.0 --check-caps false
 
