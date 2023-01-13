@@ -17,5 +17,7 @@ RUN \
   do $SYSTEM.OBJ.Load("Installer.cls", "ck") \
   set sc = ##class(App.Installer).setup() 
 
+EXPOSE 52773
+
 # bringing the standard shell back
 SHELL ["/bin/bash", "-c"]
