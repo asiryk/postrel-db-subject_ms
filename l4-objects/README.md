@@ -18,7 +18,7 @@ Open InterSystems IRIS terminal
 ```shell
 $ docker-compose exec iris iris session iris
 USER>zn "IRISAPP"
-IRISAPP>do ##class(package.HelloWorld).Hello()
+IRISAPP>do ^l4.Execute
 ```
 
 To exit the session
