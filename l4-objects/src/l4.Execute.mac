@@ -8,28 +8,15 @@ ROUTINE l4.Execute
     set tire.Name = "Tire"
     set tire.Price = 100
 
-    set wheel = ##class(l4.SparePart).%New()
-    set wheel.Name = "Wheel"
-    set wheel.Price = 500
-    do wheel.DependsOn.Insert(tire)
-    do wheel.DependsOn.Insert(disk)
-
-
     set order1 = ##class(l4.Order).%New()
     set order2 = ##class(l4.Order).%New()
 
-    set discount1 = ##class(l4.Discount).%New()
-    set discount1.Reason = "birth day"
-    set discount1.DiscountPercents = 20
-    set discount2 = ##class(l4.Discount).%New()
-    set discount2.Reason = "1000th buyer"
-    set discount1.DiscountPercents = 100
     set order1.Id = 0
-    set order1.Discount = discount1
-    set order1.SparePartRel = wheel
+    set disk.OrderRel = order1
+    do order1.SparePartRel.Insert(disk)
     set order2.Id = 1
-    set order2.Discount = discount2
-    set order2.SparePartRel = tire
+    set tire.OrderRel = order2
+    do order2.SparePartRel.Insert(tire)
 
 
     set client1 = ##class(l4.Client).%New()
@@ -85,7 +72,6 @@ ROUTINE l4.Execute
 
     write disk.%Save(), !
     write tire.%Save(), !
-    write wheel.%Save(), !
     write order1.%Save(), !
     write order2.%Save(), !
     write client1.%Save(), !

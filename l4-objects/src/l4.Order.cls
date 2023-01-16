@@ -1,7 +1,7 @@
-Class l4.Order Extends %Persistent
+Class l4.Order Extends (%Persistent, %Library.Populate)
 {
 
-Relationship SparePartRel As l4.SparePart [ Cardinality = parent, Inverse = OrderRel ];
+Relationship SparePartRel As l4.SparePart [ Cardinality = children, Inverse = OrderRel ];
 
 Property Id As %Integer [ Required ];
 
