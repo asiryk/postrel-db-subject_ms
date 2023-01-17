@@ -9,6 +9,13 @@ Property Price As %Integer;
 
 Property DependsOn As list Of l6.SparePart;
 
+ClassMethod GetSparePartByName(sparePartName As %String) As %ObjectHandle
+{
+    &sql(select id into :id from l6.SparePart where "Name" = :sparePartName)
+    if SQLCODE quit $$$NULLOREF
+    quit ##class(l6.SparePart).%OpenId(id)
+}
+
 Storage Default
 {
 <Data name="SparePartDefaultData">

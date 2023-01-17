@@ -9,6 +9,20 @@ Index IdIndex On Id [ Unique ];
 
 Property Discount As l6.Discount;
 
+ClassMethod GetOrderById(id As %Numeric) As %ObjectHandle
+{
+    quit ##class(l6.Client).%OpenId(id)
+}
+
+ClassMethod EchoOrderWithDiscount() As %String
+{
+    set dQuery = "SELECT %ID, Discount FROM l6.Order WHERE Discount > 0"
+    set statement = ##class(%SQL.Statement).%ExecDirect(.smt, dQuery)
+    do statement.%Display()
+
+    Quit "Success"
+}
+
 Storage Default
 {
 <Data name="OrderDefaultData">

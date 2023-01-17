@@ -1,4 +1,4 @@
-Class l6.Discount Extends (%SerialObject, %Library.Populate)
+Class l6.Discount Extends (%Persistent, %Library.Populate)
 {
 
 Property Reason As %String;

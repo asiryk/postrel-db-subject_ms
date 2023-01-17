@@ -18,6 +18,19 @@ Method GetAge() As %Integer [ CodeMode = expression, ServerOnly = 1 ]
 ##class(l6.Client).CalculateAge(..BirthDate)
 }
 
+Trigger SetDiscount [ Event = INSERT, Foreach = row/object, Time = AFTER ]
+{
+    set ^Discount("discount_q", {ID}) = {ID}
+}
+
+ClassMethod GetClientByManagerLastName(lastName As %String) As %ObjectHandle
+{
+    &sql(select id into :id from l6.Client where Manger->LastName = :lastName)
+
+    if SQLCODE quit $$$NULLOREF
+    quit ##class(l6.Client).%OpenId(id)
+}
+
 Storage Default
 {
 <Data name="ClientDefaultData">

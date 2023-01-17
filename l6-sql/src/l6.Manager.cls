@@ -7,6 +7,86 @@ Property TenderPhones As array Of %String;
 
 Property Commission As %Float;
 
+ClassMethod EchoAllClient(EmId As %Numeric) As %String
+{
+    Set resultSet=##class(%ResultSet).%New()
+    Set resultSet.ClassName="l6.Manager"
+    Set resultSet.QueryName="GetAllClient"
+    Do resultSet.Execute(EmId)
+
+    While resultSet.Next() {
+        Write resultSet.Data("FirstName"), !
+    }
+
+    Return "Success"
+}
+
+Query GetAllClient(EmId As %Numeric) As %Query(ROWSPEC = "FirstName:%String") [ SqlProc ]
+{
+}
+
+ClassMethod GetAllClientExecute(ByRef qHandle As %Binary, EmId As %Numeric) As %Status
+{
+    set employee = ##class(l6.Manager).%OpenId(EmId)
+
+    Set key = ""
+    Do {
+    Set client = employee.Clients.GetNext(.key)
+    If (client '= "") {
+    set $li(qHandle, *+1) = $lb(client.FirstName)
+    }
+    } While (key '= "")
+
+    kill ^||iter
+    set ^||iter = 1
+    Quit $$$OK
+}
+
+ClassMethod GetAllClientFetch(ByRef qHandle As %Binary, ByRef Row As %List, ByRef AtEnd As %Integer = 0) As %Status [ PlaceAfter = GetAllClientExecute ]
+{
+    set rs=$get(qHandle)
+    if $ll(rs)=0 {
+    set Row=""
+    set AtEnd=1
+    quit $$$OK
+    }
+    if ^||iter <= $ll(rs) {
+    set Row=$li(rs, ^||iter)
+    set AtEnd=0
+    set ^||iter = $increment(^||iter)
+    } else {
+    set Row=""
+    set AtEnd=1
+    }
+    Quit $$$OK
+}
+
+ClassMethod GetAllClientClose(ByRef qHandle As %Binary) As %Status [ PlaceAfter = GetAllClientExecute ]
+{
+    Set qHandle=""
+    Quit $$$OK
+}
+
+ClassMethod GetManagersWithSalaryMore1000() As %String
+{
+    &sql(DECLARE ClientC CURSOR FOR
+    SELECT %ID, FirstName,LastName
+    INTO :id, :firstName, :lastName
+    FROM l6.Manager
+    WHERE Salary > 1000
+    )
+
+    &sql(OPEN ClientC)
+    &sql(FETCH ClientC)
+    While (SQLCODE = 0) {
+    w id, ": ", lastName, " ", firstName,!
+    &sql(FETCH ClientC)
+    }
+    &sql(CLOSE ClientC)
+
+    Quit "Success"
+}
+
 Storage Default
 {
 <Data name="ManagerDefaultData">
