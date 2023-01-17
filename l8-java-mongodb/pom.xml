@@ -9,16 +9,33 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>l8-java-mongodb</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>https://github.com/asiryk/subject_ms-postrel-db</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven-compiler-plugin.source>8</maven-compiler-plugin.source>
+    <maven-compiler-plugin.target>8</maven-compiler-plugin.target>
+    <mongodb-driver-sync.version>4.8.1</mongodb-driver-sync.version>
+    <mongodb-crypt.version>1.6.1</mongodb-crypt.version>
+    <logback-classic.version>1.2.11</logback-classic.version>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongodb-driver-sync</artifactId>
+      <version>${mongodb-driver-sync.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongodb-crypt</artifactId>
+      <version>${mongodb-crypt.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback-classic.version}</version>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -43,6 +60,10 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
+          <configuration>
+            <source>${maven-compiler-plugin.source}</source>
+            <target>${maven-compiler-plugin.target}</target>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
