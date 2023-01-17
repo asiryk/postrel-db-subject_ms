@@ -1,4 +1,4 @@
-Class l5.User Extends %Persistent [ Abstract ]
+Class l5.User Extends (%Persistent, %Library.Populate) [ Abstract ]
 {
 
 Property FirstName As %String;

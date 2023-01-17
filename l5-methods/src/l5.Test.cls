@@ -7,17 +7,17 @@ Method TestCreatingObject()
     Do $$$AssertTrue($ISOBJECT(client), "create client object")
 }
 
-Method TestDeletingObject()
+Method TestUniqueField()
 {
-    Set client = ##class(l5.Client).%New()
-    Do client.%Save()
-    Do $$$AssertTrue($ISOBJECT(client), "delete client object")
+    Set order = ##class(l5.Order).%New()
+    Set order.Id = 53
+    Set saveStatus = order.%Save()
     
-    Set del = ##class(l5.Client).%DeleteId(client.%Id())
-    Set exist = ##class(l5.Client).%OpenId(client.%Id())
+    Set order2 = ##class(l5.Order).%New()
+    Set order2.Id = 53
+    Set saveStatus = order2.%Save()
     
-    Do $$$AssertStatusOK(del, "Object deleted")
-    Do $$$AssertStatusNotOK(exist, "Object doesn't deleted")
+    Do $$$AssertStatusNotOK(saveStatus, "Unique field test")
 }
 
 Method TestRequiredField()
@@ -33,17 +33,17 @@ Method TestRequiredField()
     Do $$$AssertStatusOK(del, "Object deleted")
 }
 
-Method TestUniqueField()
+Method TestDeletingObject()
 {
-    Set order = ##class(l5.Order).%New()
-    Set order.Id = 53
-    Set saveStatus = order.%Save()
+    Set client = ##class(l5.Client).%New()
+    Do client.%Save()
+    Do $$$AssertTrue($ISOBJECT(client), "delete client object")
     
-    Set order2 = ##class(l5.Order).%New()
-    Set order2.Id = 53
-    Set saveStatus = order2.%Save()
+    Set del = ##class(l5.Client).%DeleteId(client.%Id())
+    Set exist = ##class(l5.Client).%OpenId(client.%Id())
     
-    Do $$$AssertStatusNotOK(saveStatus, "Unique field test")
+    Do $$$AssertStatusOK(del, "Object deleted")
+    Do $$$AssertStatusNotOK(exist, "Object is not deleted")
 }
 
 Method TestRelation()

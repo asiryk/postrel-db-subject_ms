@@ -1,0 +1,80 @@
+ROUTINE l4.Execute
+
+    set disk = ##class(l5.SparePart).%New()
+    set disk.Name = "Disk"
+    set disk.Price = 100
+
+    set tire = ##class(l5.SparePart).%New()
+    set tire.Name = "Tire"
+    set tire.Price = 100
+
+    set order1 = ##class(l5.Order).%New()
+    set order2 = ##class(l5.Order).%New()
+
+    set order1.Id = 0
+    set disk.OrderRel = order1
+    do order1.SparePartRel.Insert(disk)
+    set order2.Id = 1
+    set tire.OrderRel = order2
+    do order2.SparePartRel.Insert(tire)
+
+
+    set client1 = ##class(l5.Client).%New()
+    set client2 = ##class(l5.Client).%New()
+
+    set clientAvatar = ##class(%Stream.FileBinary).%New()
+    set clientAvatar.Filename = "/assets/client.png"
+
+    set client1.FirstName = "John"
+    set client1.LastName = "Doe"
+    do client1.Avatar.CopyFrom(clientAvatar)
+    do client1.Orders.Insert(order1)
+
+    set client2.FirstName = "John"
+    set client2.LastName = "Cena"
+    do client2.Avatar.CopyFrom(clientAvatar)
+    do client2.Orders.Insert(order2)
+
+
+    set tenderPhones1 = ##class(%ListOfDataTypes).%New()
+    do tenderPhones1.Insert("+380-67-355-15-44")
+    do tenderPhones1.Insert("+380-93-821-15-02")
+
+    set tenderPhones2 = ##class(%ListOfDataTypes).%New()
+    do tenderPhones2.Insert("+380-54-181-99-55")
+    do tenderPhones2.Insert("+380-67-355-15-44")
+
+    set manager1 = ##class(l5.Manager).%New()
+    set manager2 = ##class(l5.Manager).%New()
+
+    set managerAvatar = ##class(%Stream.FileBinary).%New()
+    set managerAvatar.Filename = "/assets/manager.png"
+
+    set manager1.FirstName = "John"
+    set manager1.LastName = "Smith"
+    set manager1.Commission = 15000.00
+    do manager1.Avatar.CopyFrom(managerAvatar)
+    do manager1.TenderPhones.SetAt(tenderPhones1, "AAA Company Name 1")
+
+    set manager2.FirstName = "John"
+    set manager2.LastName = "Sanchez"
+    set manager2.Commission = 17000.00
+    do manager2.Avatar.CopyFrom(managerAvatar)
+    do manager2.TenderPhones.SetAt(tenderPhones2, "AAA Company Name 2")
+
+
+    do manager1.ClientRel.Insert(client1)
+    set client1.ManagerRel = manager1
+
+    do manager2.ClientRel.Insert(client2)
+    set client2.ManagerRel = manager2
+
+
+    write disk.%Save(), !
+    write tire.%Save(), !
+    write order1.%Save(), !
+    write order2.%Save(), !
+    write client1.%Save(), !
+    write client2.%Save(), !
+    write manager1.%Save(), !
+    write manager2.%Save(), !
