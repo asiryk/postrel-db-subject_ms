@@ -31,7 +31,7 @@ ClassMethod GetAllClientExecute(ByRef qHandle As %Binary, EmId As %Numeric) As %
 
     Set key = ""
     Do {
-    Set client = employee.Clients.GetNext(.key)
+    Set client = employee.ClientRel.GetNext(.key)
     If (client '= "") {
     set $li(qHandle, *+1) = $lb(client.FirstName)
     }
@@ -67,19 +67,19 @@ ClassMethod GetAllClientClose(ByRef qHandle As %Binary) As %Status [ PlaceAfter 
     Quit $$$OK
 }
 
-ClassMethod GetManagersWithSalaryMore1000() As %String
+ClassMethod GetManagersWithCommisionMoreThan(commission As %Float) As %String
 {
     &sql(DECLARE ClientC CURSOR FOR
-    SELECT %ID, FirstName,LastName
-    INTO :id, :firstName, :lastName
+    SELECT %ID, FirstName, LastName, Commission
+    INTO :id, :firstName, :lastName, :comm
     FROM l6.Manager
-    WHERE Salary > 1000
+    WHERE Commission > :commission
     )
 
     &sql(OPEN ClientC)
     &sql(FETCH ClientC)
     While (SQLCODE = 0) {
-    w id, ": ", lastName, " ", firstName,!
+    w id, ": ", lastName, " ", firstName, ": ", comm,!
     &sql(FETCH ClientC)
     }
     &sql(CLOSE ClientC)

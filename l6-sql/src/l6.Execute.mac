@@ -80,16 +80,21 @@ ROUTINE l6.Execute
     write manager1.%Save(), !
     write manager2.%Save(), !
 
+    write ##class(l6.Client).Populate(10, 0), !
+    write ##class(l6.Manager).Populate(10, 0), !
+    write ##class(l6.SparePart).Populate(10, 0), !
+    write ##class(l6.Order).Populate(10, 0), !
+
     set l6SparePart = ##class(l6.SparePart).%New()
     set l6discount = ##class(l6.Discount).%New()
     set l6Order = ##class(l6.Order).%New()
     set l6Manager = ##class(l6.Manager).%New()
     set l6Client = ##class(l6.Client).%New()
 
-    write l6Manager.GetManagersWithSalaryMore1000()
-    write l6Client.GetClientByManagerLastName("Smith")
+    #; write l6Manager.GetManagersWithCommisionMoreThan(1000)
+    #; write l6Client.GetClientByManagerLastName("Smith")
     write l6Manager.EchoAllClient(manager1.%Id())
-    write l6Order.EchoOrderWithDiscount(), !
+    #; write l6Order.EchoOrderWithDiscount(), !
 
-    set sparePart = tire.GetSparePartByName("Tire")
-    write sparePart.Price
+    #; set sparePart = tire.GetSparePartByName("Tire")
+    #; write sparePart.Price

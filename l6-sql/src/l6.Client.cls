@@ -25,7 +25,7 @@ Trigger SetDiscount [ Event = INSERT, Foreach = row/object, Time = AFTER ]
 
 ClassMethod GetClientByManagerLastName(lastName As %String) As %ObjectHandle
 {
-    &sql(select id into :id from l6.Client where Manger->LastName = :lastName)
+    &sql(select id into :id from l6.Client where MangerRel->LastName = :lastName)
 
     if SQLCODE quit $$$NULLOREF
     quit ##class(l6.Client).%OpenId(id)
