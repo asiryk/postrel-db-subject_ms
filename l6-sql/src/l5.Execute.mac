@@ -1,0 +1,13 @@
+ROUTINE l5.Execute
+
+    set client = ##class(l6.Client).%New()
+    set client.BirthDate = $ZDATE(21400) ; returns 08/04/1899
+    write client.GetAge(), !
+
+    write ##class(l6.Client).Populate(10, 0), !
+    write ##class(l6.Manager).Populate(10, 0), !
+    write ##class(l6.SparePart).Populate(10, 0), !
+    write ##class(l6.Order).Populate(10, 0), !
+
+    set ^UnitTestRoot = "/tests"
+    do ##class(%UnitTest.Manager).RunTest("Test:l6.Test", "/noload/norecursive/nodelete")
