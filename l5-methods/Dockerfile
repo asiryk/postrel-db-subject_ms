@@ -23,3 +23,9 @@ COPY ./assets /assets
 
 # bringing the standard shell back
 SHELL ["/bin/bash", "-c"]
+USER root
+
+# create the test directory
+RUN mkdir -p /tests/Test
+
+USER irisowner

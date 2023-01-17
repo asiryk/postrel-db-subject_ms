@@ -1,0 +1,4 @@
+ROUTINE l5.ExecuteTests
+
+    set ^UnitTestRoot = "/tests"
+    do ##class(%UnitTest.Manager).RunTest("Test:l5.Test", "/noload/norecursive/nodelete")
